@@ -72,16 +72,16 @@ var tweetModule = (function() {
 			}
 			
 			$(outer).append(	
-				'<div id="simpletweet-wrapper"><img class="logo" src="twitter.png"/><div id="simpletweet">'+
-				'<div id="left"><div id="leftinner"><img src="left2.png"/></div></div>'+
-				'<div id="tweettext"></div>'+
-				'<div id="right"><div id="rightinner"><img src="right2.png"/></div></div>'+
+				'<div class="simpletweet-wrapper"><img class="logo" src="twitter.png"/><div class="simpletweet">'+
+				'<div class="left"><div class="leftinner"><img src="left.png"/></div></div>'+
+				'<div class="tweettext"></div>'+
+				'<div class="right"><div class="rightinner"><img src="right.png"/></div></div>'+
 				'</div></div>');
 				
-			$("#simpletweet").css("width", width);
-			$("#simpletweet").css("height", height);
-			$("#left, #right, #tweettext").css("height", height);
-			$("#tweettext").css("width", width-50);
+			$(".simpletweet").css("width", width);
+			$(".simpletweet").css("height", height);
+			$(".left, .right, .tweettext").css("height", height);
+			$(".tweettext").css("width", width-50);
 			
 			
 	}
@@ -90,7 +90,7 @@ var tweetModule = (function() {
 	
 		$(".tweet").css("width", width-120);
 		$(".tweet").css("height", height-10);
-		$("#tweettext img").css("top", (height-48)/2);
+		$(".tweettext img").css("top", (height-48)/2);
 	}
 
 	
@@ -99,10 +99,10 @@ var tweetModule = (function() {
 	
 	var initNavigation = function(){
 	
-		$('#rightinner').click(function(){
+		$('.rightinner').click(function(){
 		
 			if(searchString != ""){
-				$('#tweettext').empty();
+				$('.tweettext').empty();
 				if(currentTweet < list.length-1){tweetSlider(currentTweet+1);}
 				else{currentTweet++;
 				currentPage++;
@@ -110,9 +110,9 @@ var tweetModule = (function() {
 			}
 		});
 				
-		$('#leftinner').click(function(){
+		$('.leftinner').click(function(){
 			if(searchString != ""){
-				$('#tweettext').empty();
+				$('.tweettext').empty();
 				if(currentTweet <= 0){tweetSlider(list.length-1) }
 				else{tweetSlider(currentTweet-1);}
 			}
@@ -122,11 +122,11 @@ var tweetModule = (function() {
 	
 	var tweetSlider = function(start){
 		currentTweet = start;	
-		if(currentTweet > 0){$('#leftinner').css("display", "table-cell");	}
-		else{ $('#leftinner').css("display", "none");}
-		if(list[currentTweet] != undefined){$('#rightinner').css("display", "table-cell");}	
-		else{$('#rightinner').css("display", "none"); }
-		$('#tweettext').append(list[currentTweet]);	
+		if(currentTweet > 0){$('.leftinner').css("display", "table-cell");	}
+		else{ $('.leftinner').css("display", "none");}
+		if(list[currentTweet] != undefined){$('.rightinner').css("display", "table-cell");}	
+		else{$('.rightinner').css("display", "none"); }
+		$('.tweettext').append(list[currentTweet]);	
 		tweetHeight(this.width, this.height);	
 	}
 	
@@ -139,7 +139,7 @@ var tweetModule = (function() {
 		else{url+=queryUrl;}
 		
 		console.log(url);
-		$('#tweettext').empty();
+		$('.tweettext').empty();
 		
 		$.ajax({
 			url: url,
@@ -147,7 +147,7 @@ var tweetModule = (function() {
 			success: function( data ) {
 			
 				if(data.results.length < 1){
-					$('#tweettext').append('<div class="tweet"><div class="tweetcontent"><h5>You have reached the end of Twitter. 100% true statement</h5></div></div>');
+					$('.tweettext').append('<div class="tweet"><div class="tweetcontent"><h5>You have reached the end of Twitter. 100% true statement</h5></div></div>');
 					moreTweets = false;
 					tweetSlider(currentTweet);
 				}
@@ -156,8 +156,8 @@ var tweetModule = (function() {
 					$.each( data.results, function( index, item ) {
 						var tweet = '<img src="'+item.profile_image_url+'"/>';
 						tweet += '<div class="tweet"><div class="tweetcontent"><a href="http://www.twitter.com/@'+ item.from_user +'" target="_blank">'+'<strong class="realname">'+item.from_user_name+'</strong><span class="username">'+' @'+item.from_user+'</span></a><br/>';
-						//$('#simpletweet').append('<img src="'+item.profile_image_url+'"/>');
-						//$('#simpletweet').append('<h5>'+item.from_user+'</h5>');
+						//$('.simpletweet').append('<img src="'+item.profile_image_url+'"/>');
+						//$('.simpletweet').append('<h5>'+item.from_user+'</h5>');
 						
 						var text = item.text;
 						text = text.replace(/(https?:\/\/\S+)/gi,"<a href='$&'>$&</a>");
