@@ -183,28 +183,17 @@ function monoTweet()
 	
 	}
 	
-    this.print = function()   // Only visible inside Restaurant()
-    {
-		console.log(list);
-		console.log(id);
-	
-    }
-	
-	
-
 }
 
 test = new monoTweet();
 test2 = new monoTweet();
+
+
 $(document).ready(function()
 {	
-test.simpleTweet("test", "body", 450, 90, true, "#derp", false );
-test2.simpleTweet("test2", "body", 350, 90, true, "#power", false );
-setTimeout(function(){
-test.print();
-test2.print();
-}, 1000);
-
+test.simpleTweet("test", "body", 450, 90, false, "#example", false );
+$("body").append("<br/>");
+test2.simpleTweet("test2", "body", 350, 90, true, "#templar", false );
 });
 
 
