@@ -1,25 +1,19 @@
-/*
-Note: This script uses Twitters Search API, and is therefore limited to the last 7 days.
+function monoTweet()
+{
 
+	var list = [];
+	var currentTweet = 0;
+	var currentPage = 1;
+	var searchString = "";
+	var moreTweets = true;
+	var width = 0;
+	var height = 0;
+	var timeline = false;
+	var id = "";
 
-To-do: 
-- Searchbar. Fix dropdown/toggle for searches for either a users timeline or regular search.
-- Slideshow?
-*/
-var tweetModule = (function() {
-	 list = [];
-	 currentTweet = 0;
-	 currentPage = 1;
-	 searchString = "";
-	 moreTweets = true;
-	 width = 0;
-	 height = 0;
-	 timeline = false;
-	
-	
-	var simpleTweet = function(outerContainer, newWidth, newHeight, newSearch, newSearchString, newTimeline) {
+	this.simpleTweet = function(newId, outerContainer, newWidth, newHeight, newSearch, newSearchString, newTimeline) {
 		searchString = newSearchString;
-		
+		id = newId;
 		timeline = newTimeline;
 		
 		
@@ -36,7 +30,7 @@ var tweetModule = (function() {
 		} else {
 		  console.log(height + " is not a valid argument for height. Set to an integer");
 		  console.log("height set to 100");
-		  this.height = 100;
+		  height = 100;
 		}
 		
 		if (newSearch.toString().toLowerCase() == "true" || newSearch.toString().toLowerCase()  == "false") {
@@ -46,8 +40,8 @@ var tweetModule = (function() {
 		  console.log("search set to false");
 		  search = false;
 		}
-
-		initContainer(outerContainer, width, height, search);	
+		
+		initContainer(outerContainer, width, height, search);
 		searchString = searchString.replace('@', '%40'); 
 		searchString = searchString.replace('#', '%23');
 		searchTwitter(searchString);
@@ -58,76 +52,79 @@ var tweetModule = (function() {
 		
 		
 			if(search == true){
-				$(outer).append('<input id="search" type="text">'+
-					'<button id="searchbutton">Search</button>');
-				$('#searchbutton').click(function(){
+				$(outer).append('<input id="search'+id+'" type="text">'+
+					'<button id="searchbutton'+id+'">Search</button>');
+				$('#searchbutton'+id).click(function(){
 					list = [];
 					currentTweet = 0;
 					currentPage = 1;
-					searchString = document.getElementById("search").value;
+					searchString = document.getElementById("search"+id).value;
 					searchString = searchString.replace('@', '%40'); 
 					searchString = searchString.replace('#', '%23'); 
 					searchTwitter(searchString);
 				});
 			}
 			
+			
 			$(outer).append(	
-				'<div class="simpletweet-wrapper"><img class="logo" src="twitter.png"/><div class="simpletweet">'+
+				'<div id="'+ id +'" class="simpletweet-wrapper"><img class="logo" src="twitter.png"/><div class="simpletweet">'+
 				'<div class="left"><div class="leftinner"><img src="left.png"/></div></div>'+
 				'<div class="tweettext"></div>'+
 				'<div class="right"><div class="rightinner"><img src="right.png"/></div></div>'+
 				'</div></div>');
-				
-			$(".simpletweet").css("width", width);
-			$(".simpletweet").css("height", height);
-			$(".left, .right, .tweettext").css("height", height);
-			$(".tweettext").css("width", width-50);
+		
+			$("#"+id+" .simpletweet").css("width", width);
+			$("#"+id+" .simpletweet").css("height", height);
+			$("#"+id+" .left, .right, .tweettext").css("height", height);
+			$("#"+id+" .tweettext").css("width", width-50);
 			
 			
-	}
-	
-	var tweetHeight = function(width, height){
-	
-		$(".tweet").css("width", width-120);
-		$(".tweet").css("height", height-10);
-		$(".tweettext img").css("top", (height-48)/2);
-	}
-
-	
-
-		
-	
-	var initNavigation = function(){
-	
-		$('.rightinner').click(function(){
-		
-			if(searchString != ""){
-				$('.tweettext').empty();
-				if(currentTweet < list.length-1){tweetSlider(currentTweet+1);}
-				else{currentTweet++;
-				currentPage++;
-				searchTwitter(searchString);}
-			}
-		});
-				
-		$('.leftinner').click(function(){
-			if(searchString != ""){
-				$('.tweettext').empty();
-				if(currentTweet <= 0){tweetSlider(list.length-1) }
-				else{tweetSlider(currentTweet-1);}
-			}
-		});
-		
+			
 	}
 	
 	var tweetSlider = function(start){
 		currentTweet = start;	
-		if(currentTweet > 0){$('.leftinner').css("display", "table-cell");	}
-		else{ $('.leftinner').css("display", "none");}
-		if(list[currentTweet] != undefined){$('.rightinner').css("display", "table-cell");}	
-		else{$('.rightinner').css("display", "none"); }
-		$('.tweettext').append(list[currentTweet]);	
-		tweetHeight(this.width, this.height);	
+		if(currentTweet > 0){$("#"+id+' .leftinner').css("display", "table-cell");	}
+		else{ $("#"+id+' .leftinner').css("display", "none");}
+		if(list[currentTweet] != undefined){$("#"+id+' .rightinner').css("display", "table-cell");}	
+		else{$("#"+id+' .rightinner').css("display", "none"); }
+		$("#"+id+' .tweettext').append(list[currentTweet]);	
+		
+		tweetHeight(width, height);	
+	}
+	
+		
+	var tweetHeight = function(width, height){
+	
+		$("#"+id+" .tweet").css("width", width-120);
+		$("#"+id+" .tweet").css("height", height-10);
+		$("#"+id+" .tweettext img").css("top", (height-48)/2);
+	}
+	
+	var initNavigation = function(){
+	
+		$("#"+id+' .rightinner').click(function(){
+		
+			if(searchString != ""){
+				$("#"+id+' .tweettext').empty();
+				if(currentTweet < list.length-1){tweetSlider(currentTweet+1);}
+				else{currentTweet++;
+				currentPage++;
+				
+				searchTwitter(searchString);}
+			}
+			
+	
+		});
+				
+		$("#"+id+' .leftinner').click(function(){
+			if(searchString != ""){
+				$("#"+id+' .tweettext').empty();
+				if(currentTweet <= 0){tweetSlider(list().length-1) }
+				else{tweetSlider(currentTweet-1);}
+			}
+		});
+		
 	}
 	
 	var searchTwitter = function(input){
@@ -137,9 +134,8 @@ var tweetModule = (function() {
 		
 		if(timeline == true){url += timelineUrl + queryUrl;}
 		else{url+=queryUrl;}
-		
-		console.log(url);
-		$('.tweettext').empty();
+	
+		$("#"+id+' .tweettext').empty();
 		
 		$.ajax({
 			url: url,
@@ -147,7 +143,7 @@ var tweetModule = (function() {
 			success: function( data ) {
 			
 				if(data.results.length < 1){
-					$('.tweettext').append('<div class="tweet"><div class="tweetcontent"><h5>You have reached the end of Twitter. 100% true statement</h5></div></div>');
+					$("#"+id+' .tweettext').append('<div class="tweet"><div class="tweetcontent"><h5>You have reached the end of Twitter. 100% true statement</h5></div></div>');
 					moreTweets = false;
 					tweetSlider(currentTweet);
 				}
@@ -181,33 +177,34 @@ var tweetModule = (function() {
 				}
 			},
 			 error: function( data ) {
-			   console.log( 'ERROR: ', data );
+			   //console.log( 'ERROR: ', data );
 			}
 		});
 	
 	}
 	
-	return {
-		simpleTweet: simpleTweet,
-
-	};
-}());	
+    this.print = function()   // Only visible inside Restaurant()
+    {
+		console.log(list);
+		console.log(id);
 	
+    }
+	
+	
+
+}
+
+test = new monoTweet();
+test2 = new monoTweet();
 $(document).ready(function()
 {	
-	/*
-	Constructor: tweetModule.simpleTweet();
-	simpleTweet(
-	location, <- Use the jQuery selector
-	width, <- integer or double
-	height, <- integer or double
-	search, <- Do you want a search box above the tweets? true or false.
-	searchString, <- The thing you want to search for on Twitter.
-	timeline <- Are you searching for a user's timeline? true or false.
-	)
-	*/
-	tweetModule.simpleTweet("body", 360, 90, false, "#example", false );
+test.simpleTweet("test", "body", 450, 90, true, "#derp", false );
+test2.simpleTweet("test2", "body", 350, 90, true, "#power", false );
+setTimeout(function(){
+test.print();
+test2.print();
+}, 1000);
 
 });
-	
-	
+
+
