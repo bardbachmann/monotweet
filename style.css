@@ -1,0 +1,78 @@
+#simpletweet{
+width: 350px;
+height: 100px;
+background: #eee;
+border: 1px solid #ccc;
+}
+
+#simpletweet a{
+text-decoration: none;
+}
+
+#left{
+width: 25px;
+height: 100px;
+float: left;
+display: none;
+}
+
+
+#right{
+width: 25px;
+height: 100px;
+float: right;
+display: none;
+}
+
+#tweettext{
+width: 300px;
+height: 100px;
+float: left;
+position: relative;
+}
+
+#tweettext img{
+position: absolute;
+top: 18px;
+left: 5px;
+}
+
+.tweet{
+position: absolute;
+left: 64px;
+top: 5px;
+height: 90px;
+width: 230px;
+font-size: 0.65em;
+display: table;
+}
+
+.tweetcontent{
+display: table-cell;
+vertical-align: middle;
+}
+
+.tweet a{
+color: #39C;
+}
+
+.tweetdate{
+position: absolute;
+top: 0px;
+right: 0px;
+font-size: 0.9em;
+}
+
+.realname{
+color: #000;
+}
+
+.realname:hover{
+color: #39C;
+}
+
+.username {
+color: #666;
+}
+
+
