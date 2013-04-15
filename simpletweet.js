@@ -3,9 +3,8 @@ Note: This script uses Twitters Search API, and is therefore limited to the last
 
 
 To-do: 
-- Fix the looks - Left/Right arrows. Offset on the first tweet, and so on.
 - Searchbar. Fix dropdown/toggle for searches for either a users timeline or regular search.
-- Add twitter logo
+- Slideshow?
 */
 var tweetModule = (function() {
 	 list = [];
@@ -73,11 +72,11 @@ var tweetModule = (function() {
 			}
 			
 			$(outer).append(	
-				'<div id="simpletweet">'+
-				'<div id="left"><img src="left.png"/></div>'+
+				'<div id="simpletweet-wrapper"><img class="logo" src="twitter.png"/><div id="simpletweet">'+
+				'<div id="left"><div id="leftinner"><img src="left2.png"/></div></div>'+
 				'<div id="tweettext"></div>'+
-				'<div id="right"><img src="right.png"/></div>'+
-				'</div>');
+				'<div id="right"><div id="rightinner"><img src="right2.png"/></div></div>'+
+				'</div></div>');
 				
 			$("#simpletweet").css("width", width);
 			$("#simpletweet").css("height", height);
@@ -100,7 +99,7 @@ var tweetModule = (function() {
 	
 	var initNavigation = function(){
 	
-		$('#right').click(function(){
+		$('#rightinner').click(function(){
 		
 			if(searchString != ""){
 				$('#tweettext').empty();
@@ -111,7 +110,7 @@ var tweetModule = (function() {
 			}
 		});
 				
-		$('#left').click(function(){
+		$('#leftinner').click(function(){
 			if(searchString != ""){
 				$('#tweettext').empty();
 				if(currentTweet <= 0){tweetSlider(list.length-1) }
@@ -123,10 +122,10 @@ var tweetModule = (function() {
 	
 	var tweetSlider = function(start){
 		currentTweet = start;	
-		if(currentTweet > 0){$('#left').css("display", "inherit");	}
-		else{ $('#left').css("display", "none");}
-		if(list[currentTweet] != undefined){$('#right').css("display", "inherit");}	
-		else{$('#right').css("display", "none"); }
+		if(currentTweet > 0){$('#leftinner').css("display", "table-cell");	}
+		else{ $('#leftinner').css("display", "none");}
+		if(list[currentTweet] != undefined){$('#rightinner').css("display", "table-cell");}	
+		else{$('#rightinner').css("display", "none"); }
 		$('#tweettext').append(list[currentTweet]);	
 		tweetHeight(this.width, this.height);	
 	}
@@ -203,11 +202,11 @@ $(document).ready(function()
 	width, <- integer or double
 	height, <- integer or double
 	search, <- Do you want a search box above the tweets? true or false.
-	searchString, <- The thing you want to search for on Twitter. Note: This only checks tweet content, so you can't get all tweets from a user.
+	searchString, <- The thing you want to search for on Twitter.
 	timeline <- Are you searching for a user's timeline? true or false.
 	)
 	*/
-	tweetModule.simpleTweet("body", 360, 90, true, "Hennkel", true );
+	tweetModule.simpleTweet("body", 360, 90, false, "#example", false );
 
 });
 	

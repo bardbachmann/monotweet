@@ -1,3 +1,11 @@
+#simpletweet-wrapper{
+
+}
+
+.logo{
+margin: 3px;
+}
+
 #simpletweet{
 width: 350px;
 height: 100px;
@@ -13,7 +21,7 @@ text-decoration: none;
 width: 25px;
 height: 100px;
 float: left;
-display: none;
+display: table;
 }
 
 
@@ -21,7 +29,13 @@ display: none;
 width: 25px;
 height: 100px;
 float: right;
+display: table
+}
+
+#leftinner, #rightinner {
 display: none;
+
+vertical-align: middle;
 }
 
 #tweettext{
@@ -43,7 +57,7 @@ left: 64px;
 top: 5px;
 height: 90px;
 width: 230px;
-font-size: 0.65em;
+font-size: 0.7em;
 display: table;
 }
 
@@ -60,7 +74,7 @@ color: #39C;
 position: absolute;
 top: 0px;
 right: 0px;
-font-size: 0.9em;
+font-size: 0.8em;
 }
 
 .realname{
